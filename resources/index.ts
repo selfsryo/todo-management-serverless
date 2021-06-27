@@ -1,0 +1,3 @@
+export {
+    TodoDynamoDbTable,
+} from './dynamoDb';
