@@ -1,3 +1,1 @@
-export {
-    TodoDynamoDbTable,
-} from './dynamoDb';
+export { TodoDynamoDbTable } from './dynamoDb';
