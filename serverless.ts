@@ -26,7 +26,15 @@ const serverlessConfiguration: AWS = {
                 port: 8000,
                 inMemory: true,
                 migrate: true,
-                seed: false,
+                seed: true,
+            },
+            seed: {
+                development: {
+                    sources: {
+                        table: '${self:custom.otherfile.environment.${self:provider.stage}.TODO_TABLE_NAME}',
+                        sources: ['./migrations/todo.json'],
+                    },
+                },
             },
         },
         otherfile: {

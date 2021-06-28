@@ -4,6 +4,7 @@ import { TodoPostOptions, TodoPutOptions } from '@tables/options';
 
 export default class TodoTable {
     private docClient: AWS.DynamoDB.DocumentClient;
+
     private tableName: string;
 
     /**
@@ -122,7 +123,10 @@ export default class TodoTable {
             delete params.ExpressionAttributeValues[':newTitle'];
         }
 
-        if (options && Object.prototype.hasOwnProperty.call(options, 'status')) {
+        if (
+            options &&
+            Object.prototype.hasOwnProperty.call(options, 'status')
+        ) {
             if (options && options.status) {
                 params.ExpressionAttributeValues[':newStatus'] = options.status;
                 params.UpdateExpression += ', #s = :newStatus';
@@ -135,9 +139,13 @@ export default class TodoTable {
             delete params.ExpressionAttributeValues[':newStatus'];
         }
 
-        if (options && Object.prototype.hasOwnProperty.call(options, 'details')) {
+        if (
+            options &&
+            Object.prototype.hasOwnProperty.call(options, 'details')
+        ) {
             if (options && options.details) {
-                params.ExpressionAttributeValues[':newDetails'] = options.details;
+                params.ExpressionAttributeValues[':newDetails'] =
+                    options.details;
                 params.UpdateExpression += ', #d = :newDetails';
             } else {
                 delete params.ExpressionAttributeValues[':newDetails'];
