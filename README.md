@@ -86,3 +86,8 @@ yarn run deploy
 ```sh
 $ sls deploy --stage prod
 ```
+
+#### Remove Deploy
+```sh
+$ yarn run remove
+```
