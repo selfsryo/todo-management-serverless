@@ -1,5 +1,5 @@
 import { handlerPath } from '@libs/handlerResolver';
-import { postSchema } from '../schema';
+import { postSchema } from '@functions/schema';
 
 export const todoPost = {
     handler: `${handlerPath(__dirname)}/handler.main`,

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import AWS from '../aws';
-import { TodoPostOptions, TodoPutOptions } from './models';
+import AWS from '@libs/aws';
+import { TodoPostOptions, TodoPutOptions } from '@tables/options';
 
 export default class TodoTable {
     private docClient: AWS.DynamoDB.DocumentClient;

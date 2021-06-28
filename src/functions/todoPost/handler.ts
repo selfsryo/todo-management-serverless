@@ -1,11 +1,11 @@
 import 'source-map-support/register';
 
+import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
-import { TodoPostOptions } from '@libs/table/models';
-import TodoTable from '@libs/table/todoTable';
-import { postSchema } from '../schema';
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
+import { postSchema } from '@functions/schema';
+import { TodoPostOptions } from '@tables/options';
+import TodoTable from '@tables/todoTable';
 
 const { TODO_TABLE_NAME } = process.env;
 

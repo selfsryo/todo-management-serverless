@@ -2,7 +2,7 @@ import 'source-map-support/register';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
-import TodoTable from '@libs/table/todoTable';
+import TodoTable from '@tables/todoTable';
 
 const TODO_TABLE_NAME = process.env.TODO_TABLE_NAME;
 
