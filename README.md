@@ -56,24 +56,13 @@ $ yarn run offline
 
 #### Setup S3 bucket
 - Create S3 bucket on your aws console
-- Write your bucket name in serverless.ts
-```typescript
-const serverlessConfiguration: AWS = {
-    service: 'todo-serverless',
-    frameworkVersion: '2',
-    custom: {
-        ...
-        
-        'serverless-layers': {
-            layersDeploymentBucket: 'your S3 bucket name',
-```
 
 #### Develop stage
 - Copy and update env yml 
 ```sh
 $ cp .env.example.yml .env.dev.yml
 $ vi .env.dev.yml
-# Update table name (e.g.: todo-dev)
+# Update table name and bucket name
 ```
 - Deploy stage develop
 ```sh
