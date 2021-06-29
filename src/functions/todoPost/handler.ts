@@ -23,14 +23,14 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof postSchema> = async (
     options.details = event.body.details ? event.body.details : '';
 
     try {
-        const res = await todoTable.post(
+        const result = await todoTable.post(
             username,
             event.body.title,
             event.body.status,
             options
         );
         return formatJSONResponse({
-            res,
+            result,
         });
     } catch (err) {
         return formatJSONResponse({

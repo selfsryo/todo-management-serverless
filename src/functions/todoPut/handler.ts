@@ -31,9 +31,9 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof putSchema> = async (
     options.details = event.body.details ? event.body.details : '';
 
     try {
-        const res = await todoTable.put(username, id, options);
+        const result = await todoTable.put(username, id, options);
         return formatJSONResponse({
-            res,
+            result,
         });
     } catch (err) {
         return formatJSONResponse({

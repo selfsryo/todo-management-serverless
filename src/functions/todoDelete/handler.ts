@@ -20,9 +20,9 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const todoTable = new TodoTable(TODO_TABLE_NAME);
 
     try {
-        const res = await todoTable.delete(username, id);
+        const result = await todoTable.delete(username, id);
         return formatJSONResponse({
-            res,
+            result,
         });
     } catch (err) {
         return formatJSONResponse({
