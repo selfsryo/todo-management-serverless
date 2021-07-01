@@ -16,11 +16,11 @@ const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     try {
         const result = await todoTable.getList(username);
-        return formatJSONResponse({
+        return formatJSONResponse(200, {
             result,
         });
     } catch (err) {
-        return formatJSONResponse({
+        return formatJSONResponse(404, {
             message: err.message,
         });
     }

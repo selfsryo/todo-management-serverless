@@ -94,74 +94,67 @@ export default class TodoTable {
             TableName: this.tableName,
             Key: { user, id },
             ExpressionAttributeNames: {
-                '#t': 'title',
-                '#s': 'status',
-                '#d': 'details',
                 '#u': 'updatedAt',
             },
             ExpressionAttributeValues: {
-                ':newTitle': undefined,
-                ':newStatus': undefined,
-                ':newDetails': undefined,
                 ':updatedAt': now.getTime(),
             },
-            UpdateExpression: 'SET #u = :updatedAt',
+            UpdateExpression: 'set #u = :updatedAt',
+            ReturnValues: 'ALL_NEW',
+            ConditionExpression: 'attribute_exists(id)',
         };
 
         const removeExpression = [];
 
         if (options && Object.prototype.hasOwnProperty.call(options, 'title')) {
-            if (options && options.title) {
+            if (options.title) {
                 params.ExpressionAttributeValues[':newTitle'] = options.title;
+                params.ExpressionAttributeNames['#t'] = 'title';
                 params.UpdateExpression += ', #t = :newTitle';
             } else {
                 delete params.ExpressionAttributeValues[':newTitle'];
                 removeExpression.push('#t');
             }
-        } else {
-            delete params.ExpressionAttributeNames['#t'];
-            delete params.ExpressionAttributeValues[':newTitle'];
         }
 
         if (
             options &&
             Object.prototype.hasOwnProperty.call(options, 'status')
         ) {
-            if (options && options.status) {
+            if (options.status) {
                 params.ExpressionAttributeValues[':newStatus'] = options.status;
+                params.ExpressionAttributeNames['#s'] = 'status';
                 params.UpdateExpression += ', #s = :newStatus';
             } else {
                 delete params.ExpressionAttributeValues[':newStatus'];
                 removeExpression.push('#s');
             }
-        } else {
-            delete params.ExpressionAttributeNames['#s'];
-            delete params.ExpressionAttributeValues[':newStatus'];
         }
 
         if (
             options &&
             Object.prototype.hasOwnProperty.call(options, 'details')
         ) {
-            if (options && options.details) {
+            if (options.details) {
                 params.ExpressionAttributeValues[':newDetails'] =
                     options.details;
+                params.ExpressionAttributeNames['#d'] = 'details';
                 params.UpdateExpression += ', #d = :newDetails';
             } else {
                 delete params.ExpressionAttributeValues[':newDetails'];
                 removeExpression.push('#d');
             }
-        } else {
-            delete params.ExpressionAttributeNames['#d'];
-            delete params.ExpressionAttributeValues[':newDetails'];
         }
 
         if (removeExpression.length > 0) {
-            params.UpdateExpression += ` REMOVE ${removeExpression.join(',')}`;
+            params.UpdateExpression += ` remove ${removeExpression.join(',')}`;
         }
+        console.log(params);
+        console.log(params);
+        console.log(params);
 
-        await this.docClient.update(params).promise();
-        return this.get(user, id);
+        const data = await this.docClient.update(params).promise();
+        return data.Attributes;
     }
 
     async delete(user: string, id: string): Promise<boolean> {
@@ -177,6 +170,7 @@ export default class TodoTable {
         }
 
         await this.docClient.delete(params).promise();
+
         return true;
     }
 }

@@ -20,7 +20,10 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof postSchema> = async (
     const todoTable = new TodoTable(TODO_TABLE_NAME);
 
     const options: TodoPostOptions = {};
-    options.details = event.body.details ? event.body.details : '';
+    const details = event.body.options.details;
+    if (details) {
+        options.details = details;
+    }
 
     try {
         const result = await todoTable.post(
@@ -29,11 +32,11 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof postSchema> = async (
             event.body.status,
             options
         );
-        return formatJSONResponse({
+        return formatJSONResponse(200, {
             result,
         });
     } catch (err) {
-        return formatJSONResponse({
+        return formatJSONResponse(404, {
             message: err.message,
         });
     }
