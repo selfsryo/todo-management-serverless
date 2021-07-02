@@ -3,12 +3,7 @@ export const postSchema = {
     properties: {
         title: { type: 'string' },
         status: { type: 'string' },
-        options: {
-            type: 'object',
-            properties: {
-                details: { type: 'string' },
-            },
-        },
+        details: { type: 'string' },
     },
     required: ['title', 'status'],
 } as const;

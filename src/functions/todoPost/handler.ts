@@ -20,7 +20,7 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof postSchema> = async (
     const todoTable = new TodoTable(TODO_TABLE_NAME);
 
     const options: TodoPostOptions = {};
-    const details = event.body.options.details;
+    const details = event.body.details;
     if (details) {
         options.details = details;
     }

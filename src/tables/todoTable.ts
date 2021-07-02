@@ -149,9 +149,6 @@ export default class TodoTable {
         if (removeExpression.length > 0) {
             params.UpdateExpression += ` remove ${removeExpression.join(',')}`;
         }
-        console.log(params);
-        console.log(params);
-        console.log(params);
 
         const data = await this.docClient.update(params).promise();
         return data.Attributes;

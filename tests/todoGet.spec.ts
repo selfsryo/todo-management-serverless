@@ -9,12 +9,12 @@ describe('API — todoGet', () => {
         createdAt: 1624880260099,
         id: '19af5cfa-76f2-467b-8b0f-778cb5e9a279',
         title: 'to get',
-        user: 'get user',
+        user: 'getUser',
         status: 'New',
         details: 'todo detail',
     };
 
-    it('GET a specific todo', (done) => {
+    it('get a specific todo', (done) => {
         server
             .get(`todo/${initData.user}/${initData.id}`)
             .expect(200)
@@ -32,7 +32,7 @@ describe('API — todoGet', () => {
             });
     });
 
-    it('GET with invalid user', (done) => {
+    it('get with invalid user', (done) => {
         server.get(`todo/dummyUser/${initData.id}`).expect(404).end(done);
     });
 
