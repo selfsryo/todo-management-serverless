@@ -1,11 +1,11 @@
 import 'source-map-support/register';
 
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 import { postSchema } from '@functions/schema';
 import { TodoPostOptions } from '@tables/options';
 import TodoTable from '@tables/todoTable';
+import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 
 const { TODO_TABLE_NAME } = process.env;
 
@@ -20,20 +20,23 @@ const handler: ValidatedEventAPIGatewayProxyEvent<typeof postSchema> = async (
     const todoTable = new TodoTable(TODO_TABLE_NAME);
 
     const options: TodoPostOptions = {};
-    options.details = event.body.details ? event.body.details : '';
+    const details = event.body.details;
+    if (details) {
+        options.details = details;
+    }
 
     try {
-        const res = await todoTable.post(
+        const result = await todoTable.post(
             username,
             event.body.title,
             event.body.status,
             options
         );
-        return formatJSONResponse({
-            res,
+        return formatJSONResponse(200, {
+            result,
         });
     } catch (err) {
-        return formatJSONResponse({
+        return formatJSONResponse(404, {
             message: err.message,
         });
     }

@@ -1,3 +1,4 @@
+import { TodoDynamoDbTable } from 'resources';
 import {
     todoGet,
     todoGetList,
@@ -5,19 +6,21 @@ import {
     todoPut,
     todoDelete,
 } from './src/functions';
-import { TodoDynamoDbTable } from 'resources';
 import type { AWS } from '@serverless/typescript';
 
 const serverlessConfiguration: AWS = {
     service: 'todo-serverless',
+
     frameworkVersion: '2',
+
     custom: {
         webpack: {
             webpackConfig: './webpack.config.js',
         },
         defaultStage: 'local',
         'serverless-layers': {
-            layersDeploymentBucket: 'your S3 bucket name',
+            layersDeploymentBucket:
+                '${self:custom.otherfile.environment.${self:provider.stage}.S3_BUCKET_NAME}',
             dependenciesPath: './package.json',
         },
         dynamodb: {
@@ -26,7 +29,15 @@ const serverlessConfiguration: AWS = {
                 port: 8000,
                 inMemory: true,
                 migrate: true,
-                seed: false,
+                seed: true,
+            },
+            seed: {
+                development: {
+                    sources: {
+                        table: '${self:custom.otherfile.environment.${self:provider.stage}.TODO_TABLE_NAME}',
+                        sources: ['./migrations/todo.json'],
+                    },
+                },
             },
         },
         otherfile: {
@@ -37,6 +48,7 @@ const serverlessConfiguration: AWS = {
             },
         },
     },
+
     provider: {
         name: 'aws',
         runtime: 'nodejs14.x',
@@ -73,6 +85,7 @@ const serverlessConfiguration: AWS = {
             },
         },
     },
+
     package: {
         exclude: [
             '.git/**',
@@ -87,12 +100,14 @@ const serverlessConfiguration: AWS = {
             'serverless.ts',
         ],
     },
+
     plugins: [
         'serverless-layers',
         'serverless-webpack',
         'serverless-dynamodb-local',
         'serverless-offline',
     ],
+
     functions: {
         todoGet,
         todoGetList,
@@ -100,6 +115,7 @@ const serverlessConfiguration: AWS = {
         todoPut,
         todoDelete,
     },
+
     resources: {
         Resources: {
             TodoDynamoDbTable,
